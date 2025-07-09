@@ -1,0 +1,8 @@
+@import "tailwindcss";
+@import '@fontsource/poppins';
+
+@theme{
+    --font-poppins : 'Poppins', sans-serif;
+    --shadow-custom-primary : 1px -1px 26px 6px rgba(58, 183, 208, 0.65);
+    --color-primary-blue : #0A9BB2;
+}
