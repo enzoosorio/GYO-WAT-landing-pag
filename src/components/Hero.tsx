@@ -24,9 +24,8 @@ export const Hero = () => {
       scrollTrigger : {
         trigger: ".container-hero-section",
         start: "top top",
-        end: "bottom bottom",
+        end: "90% bottom",
         scrub: 1,
-        markers: false,
       }
     })
 
@@ -79,7 +78,7 @@ export const Hero = () => {
         src="/images/image-hero-main-2.jpg"
         alt=""
         aria-label="hero"
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 object-cover w-full h-full scale-150 bg-red-300"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 object-cover w-full h-full scale-150"
       />
       <DarkLayer />
       <div className="title-hero-container flex flex-col z-10 items-center justify-center gap-6 text-white text-center">
@@ -94,16 +93,16 @@ export const Hero = () => {
         <svg
           width="24"
           height="16"
-          shape-rendering="geometricPrecision"
-          text-rendering="geometricPrecision"
-          image-rendering="optimizeQuality"
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          shapeRendering="geometricPrecision"
+          textRendering="geometricPrecision"
+          imageRendering="optimizeQuality"
+          fillRule="evenodd"
+          clipRule="evenodd"
           viewBox="0 0 512 298.04"
           className=" fill-white z-10"
         >
           <path
-            fill-rule="nonzero"
+            fillRule="nonzero"
             d="M12.08 70.78c-16.17-16.24-16.09-42.54.15-58.7 16.25-16.17 42.54-16.09 58.71.15L256 197.76 441.06 12.23c16.17-16.24 42.46-16.32 58.71-.15 16.24 16.16 16.32 42.46.15 58.7L285.27 285.96c-16.24 16.17-42.54 16.09-58.7-.15L12.08 70.78z"
           />
         </svg>
