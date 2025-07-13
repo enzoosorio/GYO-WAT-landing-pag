@@ -35,12 +35,11 @@ export const Presentation = () => {
         end: 'bottom bottom',
         scrub: 1,
         pin: '.presentation-section',
-        markers: false,
       }
     })
     
-    timeline.to('.container-presentation-cards', {
-      y: -1650,
+    timeline.from('.container-presentation-cards', {
+      y: "-100%",
       ease: 'none',
       duration: 1,
     }, 0)

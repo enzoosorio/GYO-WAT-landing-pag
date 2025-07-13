@@ -23,7 +23,6 @@ export const CardsPresentation = ({ image, children, isOdd, className, index }: 
             start: 'top 70%',
             end: '70% 95%',
             scrub: 1,
-            // markers: true,
             }
         })
 

@@ -2,6 +2,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react"
+import { GraphicBar } from "./GraphicBar";
+import { Footer } from "./Footer";
 
 gsap.registerPlugin( ScrollTrigger, useGSAP)
 
@@ -22,6 +24,7 @@ export const UnorderedText = () => {
 
     const conainerRef = useRef<HTMLDivElement>(null)
     const [domReady, setDomReady] = useState(false);
+    const [isScrollCompleted, setIsScrollCompleted] = useState(false);
 
     const orderedWords : OrderedWords = {
         States : [
@@ -158,7 +161,7 @@ export const UnorderedText = () => {
                 
                 // Crear el div auxiliar para el fondo
                 const auxBgBox = document.createElement("div");
-                auxBgBox.className = `bg-sky-300/50 absolute shadow-xl opacity-0 -z-10 rounded-xl pointer-events-none aux-bg-box-${idx + 1}`;
+                auxBgBox.className = `bg-sky-300/50 absolute shadow-xl opacity-0 -z-10 rounded-xl pointer-events-none aux-bg-box-${idx + 1} card-${idx + 1}`;
                 auxBgBox.style.left = pos.left;
                 auxBgBox.style.top = pos.top;
                 auxBgBox.style.width = `260px`;
@@ -171,10 +174,10 @@ export const UnorderedText = () => {
             wordsKeys.forEach((key) => {
                 const words = orderedWords[key];
 
-                words.forEach((word) => {
+                words.forEach((word, index) => {
                 const wordElement = document.createElement("div");
                 wordElement.textContent = word.text;
-                const className = `card-${word.card}-${word.code}`;
+                const className = `card-${word.card}-${word.code} card-${index + 1}`;
                 wordElement.className =
                     `font-poppins ${className} absolute pointer-events-none select-none whitespace-nowrap ` +
                     (key === "States"
@@ -220,6 +223,27 @@ export const UnorderedText = () => {
             end: "bottom bottom",
             pin: ".unordered-text",
             scrub: 1,
+            onUpdate: (self) => {
+                const progress = self.progress;
+                if(progress === 1){
+                    setIsScrollCompleted(true);
+                    console.log("fin");
+                    gsap.to(".footer-container", {
+                        y: 1000, 
+                        ease: "power1.out",
+                        duration: 1,
+                    });
+                }
+                else{
+                    setIsScrollCompleted(false);
+                    console.log("no fin");
+                    gsap.to(".footer-container", {
+                        y: 0, 
+                        ease: "power1.out",
+                        duration: 1,
+                    });
+                }
+            },
             markers: true,
     });
     let tlForWords = gsap.timeline({
@@ -228,23 +252,25 @@ export const UnorderedText = () => {
             start: "top top",
             end: "80% bottom",
             scrub: 1,
-            markers: true,
         }
     });
 
-   const checkPointPositions: { left: number; top: number }[] = [];
+    //conseguir las posiciones de los checkpoints boxes respecto al contenedor
+    //para poder animar las palabras a esas posiciones
+   const checkPointPositionsLocal: { left: number; top: number }[] = [];
     checkpointPositions.forEach((_, idx) => {
         const checkPointBox = container.querySelector(`.checkpoint-box-${idx + 1}`) as HTMLElement;
         if (checkPointBox) {
             const boxRect = checkPointBox.getBoundingClientRect();
             const containerRect = container.getBoundingClientRect();
-            checkPointPositions.push({
+            checkPointPositionsLocal.push({
                 left: boxRect.left - containerRect.left,
                 top: boxRect.top - containerRect.top,
             });
         }
     });
 
+    //iterar por cada palabra y animarla a su posicion
     const wordsKeys = Object.keys(orderedWords) as (keyof OrderedWords)[];
     wordsKeys.forEach((key) => {
         const words = orderedWords[key];
@@ -260,10 +286,9 @@ export const UnorderedText = () => {
             const initialY = wordRect.top - containerRect.top;
 
             // Posición objetivo (checkpoint) para esta card
-            const checkpoint = checkPointPositions[word.card - 1];
+            const checkpoint = checkPointPositionsLocal[word.card - 1];
             if (!checkpoint) return;
-
-            // Puedes sumar offsets únicos si quieres separar por tipo
+           
             let offsetX = 0;
             let offsetY = 0;
             if (key === "States") {
@@ -283,29 +308,47 @@ export const UnorderedText = () => {
                 x: checkpoint.left - initialX + offsetX + cardX,
                 y: checkpoint.top - initialY + offsetY + cardY,
                 ease: "none",
-                duration: 1,
+                duration: 10,
             }, 0);
         });
     });
 
-    checkPointPositions.forEach((_, idx) => {
+    // cambiar el color del background de los checkpoints auxiliares.
+    checkPointPositionsLocal.forEach((_, idx) => {
         const auxBgBox = container.querySelector(`.aux-bg-box-${idx + 1}`) as HTMLElement;
         if (auxBgBox) {
             tlForWords.to(auxBgBox, {
                 opacity: 1,
                 ease: "power4.in",
-                duration:0.3,
-            },0.85);
+                duration:4,
+            },8);
+            tlForWords.to(`.card-${idx + 1}`, {
+                y: () => Math.random() * 280 + 400,
+                ease: "back.in",
+                duration:8,
+            },"+=3  ")
         }
     })
+
+   tlForWords.to(".section-graphic-bar", {
+    y: "-75%",
+    ease: "power2.out",
+    duration: 20,
+    delay: 4,
+}, "-=7.5");
+
 }, [domReady]);
 
   return (
-    <div className="container-unordered-text w-full h-[300vh] relative overflow-hidden ">
-    <div
-    ref={conainerRef}
-    className="unordered-text w-full mt-20 md:mt-40 h-[400px]  relative">
+   <>
+    <div className="container-unordered-text w-full h-[700vh] relative overflow-hidden ">
+        <div
+        ref={conainerRef}
+        className="unordered-text w-full mt-20 md:mt-40 h-[400px]  relative">
+        </div>
+        <GraphicBar/>
+        <Footer/>
     </div>
-    </div>
+   </>
   )
 }

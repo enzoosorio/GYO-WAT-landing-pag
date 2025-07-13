@@ -17,7 +17,6 @@ export const Hero = () => {
         end: "bottom bottom",
         scrub: 1,
         pin: '.hero-section',
-        markers: false,
     })
 
     let tl = gsap.timeline({

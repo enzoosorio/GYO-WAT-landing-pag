@@ -9,7 +9,7 @@ function App() {
     <main>
       <Hero/>
       <Presentation/>
-      <UnorderedText/> 
+      <UnorderedText/>      
     </main>
   )
 }
