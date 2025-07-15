@@ -28,6 +28,9 @@ export const Presentation = () => {
   ]
 
   useGSAP(() => {
+
+    let mm = gsap.matchMedia()
+
     let timeline = gsap.timeline({
       scrollTrigger: {
         trigger: '.container-presentation-section',
@@ -38,27 +41,49 @@ export const Presentation = () => {
       }
     })
     
-    timeline.from('.container-presentation-cards', {
-      y: "-100%",
-      ease: 'none',
-      duration: 1,
-    }, 0)
+    // for(let i = 0; i < messages.length; i++) {
+    mm.add("(min-width : 1024px)", () => {
+        timeline.to(`.container-presentation-cards`, {
+          yPercent: -180,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          stagger: 0.1
+        }, 0)
 
+        return () => {
+          timeline.kill()
+        }
+    })
+
+    mm.add("(max-width: 1023px)", () => {
+        timeline.to(`.container-presentation-cards`, {
+          yPercent: -100,
+          duration: 0.5,
+          ease: 'power2.inOut',
+          stagger: 0.1
+        }, 0)
+
+        return () => {
+          timeline.kill()
+        }
+    })
+      
+    // }
   }, [])
 
   return (
     <div className=' w-full h-[260vh] container-presentation-section overflow-hidden '>
       <Section className='presentation-section h-full items-center'>
-        <div className='container-presentation-cards flex  text-center'>
+        <div className='container-presentation-cards py-40 h-full w-[95%] mx-auto flex flex-col items-start justify-start gap-32 text-center'>
           {messages.map((message, index) => (
             <CardsPresentation 
               key={index}
               image={message.image}
               isOdd={message.isOdd}
               index={index}
-              className={index !== 0 ? 'absolute left-1/2 -translate-x-1/2 -translate-y-1/2' : ''}
+              
             >
-              <p className='text-left text-xl font-poppins w-[50ch] font-medium text-black'>{message.content}</p>
+              <p className='text-left text-xs md:text-lg lg:text-xl font-poppins md:w-[50ch] font-medium text-black'>{message.content}</p>
             </CardsPresentation>
           ))}
         </div>

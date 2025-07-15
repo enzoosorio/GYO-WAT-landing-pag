@@ -13,7 +13,7 @@ export const Button = ({
 }: CustomButtonProps) => {
   return (
     <button
-      className={twMerge(`py-3 px-6 rounded-4xl cursor-pointer bg-primary-blue font-poppins text-white font-bold hover:bg-sky-500 transition-colors ${className}`)}
+      className={twMerge(`px-4 py-3 md:px-6 rounded-4xl cursor-pointer bg-primary-blue font-poppins text-white md:font-bold hover:bg-sky-500 transition-colors ${className}`)}
       onClick={onClick}
       type={type}
     >

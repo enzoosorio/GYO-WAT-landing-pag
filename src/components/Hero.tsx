@@ -81,7 +81,7 @@ export const Hero = () => {
       />
       <DarkLayer />
       <div className="title-hero-container flex flex-col z-10 items-center justify-center gap-6 text-white text-center">
-        <h1 className="text-5xl font-poppins w-[20ch] ">
+        <h1 className="text-3xl md:text-5xl font-poppins w-[20ch] ">
           ¿Quieres tener un viaje sin preocupaciones?
         </h1>
         <Button>

@@ -1,4 +1,6 @@
 import './App.css'
+import { GraphicBar } from './components/GraphicBar'
+
 import { Hero } from './components/Hero'
 import { Presentation } from './components/Presentation'
 import { UnorderedText } from './components/UnorderedText'
@@ -9,7 +11,8 @@ function App() {
     <main>
       <Hero/>
       <Presentation/>
-      <UnorderedText/>      
+      <UnorderedText/>
+      <GraphicBar/>  
     </main>
   )
 }

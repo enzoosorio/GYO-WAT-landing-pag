@@ -42,12 +42,12 @@ export const CardsPresentation = ({ image, children, isOdd, className, index }: 
     className={twMerge(
         `
         ${`card-presentation-${index}`}
-        w-3/4 tracking-tight mx-auto h-max flex items-center justify-center 
-        gap-12`,
+        w-11/12 lg:w-3/4 tracking-tight mx-auto h-auto flex items-center justify-center 
+        gap-6 md:gap-12`,
         isOdd === true ? 'flex-col md:flex-row-reverse' : 'flex-col md:flex-row',
         className)}>
-        <div className="w-full w overflow-hidden">
-            <img src={image} alt="" className="w-full h-full object-contain scale-120" />
+        <div className="w-full h-full overflow-hidden">
+            <img src={image} alt="" className="w-full object-contain scale-120" />
         </div>
        {children}
     </div>

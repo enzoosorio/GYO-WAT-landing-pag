@@ -3,7 +3,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react"
 import { GraphicBar } from "./GraphicBar";
-import { Footer } from "./Footer";
 
 gsap.registerPlugin( ScrollTrigger, useGSAP)
 
@@ -222,29 +221,7 @@ export const UnorderedText = () => {
             start: "top top",
             end: "bottom bottom",
             pin: ".unordered-text",
-            scrub: 1,
-            onUpdate: (self) => {
-                const progress = self.progress;
-                if(progress === 1){
-                    setIsScrollCompleted(true);
-                    console.log("fin");
-                    gsap.to(".footer-container", {
-                        y: 1000, 
-                        ease: "power1.out",
-                        duration: 1,
-                    });
-                }
-                else{
-                    setIsScrollCompleted(false);
-                    console.log("no fin");
-                    gsap.to(".footer-container", {
-                        y: 0, 
-                        ease: "power1.out",
-                        duration: 1,
-                    });
-                }
-            },
-            markers: true,
+            scrub: 1
     });
     let tlForWords = gsap.timeline({
         scrollTrigger: {
@@ -330,13 +307,6 @@ export const UnorderedText = () => {
         }
     })
 
-   tlForWords.to(".section-graphic-bar", {
-    y: "-75%",
-    ease: "power2.out",
-    duration: 20,
-    delay: 4,
-}, "-=7.5");
-
 }, [domReady]);
 
   return (
@@ -346,8 +316,6 @@ export const UnorderedText = () => {
         ref={conainerRef}
         className="unordered-text w-full mt-20 md:mt-40 h-[400px]  relative">
         </div>
-        <GraphicBar/>
-        <Footer/>
     </div>
    </>
   )
